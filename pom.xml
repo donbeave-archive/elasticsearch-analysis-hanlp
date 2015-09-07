@@ -9,7 +9,9 @@
     <version>0.1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Elasticsearch HanLP Chinese Analysis plugin</name>
-    <description>HanLP Chinese Analysis plugin integrates Lucene HanLP Chinese analysis module into elasticsearch.</description>
+    <description>
+        HanLP Chinese Analysis plugin integrates Lucene HanLP Chinese analysis module into elasticsearch.
+    </description>
     <url>https://github.com/donbeave/elasticsearch-analysis-hanlp/</url>
     <inceptionYear>2015</inceptionYear>
     <licenses>
@@ -53,6 +55,12 @@
         <dependency>
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hankcs.nlp</groupId>
+            <artifactId>lucene-hanlp</artifactId>
+            <version>1.0</version>
         </dependency>
 
         <dependency>
