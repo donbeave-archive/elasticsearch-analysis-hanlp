@@ -59,7 +59,7 @@
 
         <dependency>
             <groupId>com.hankcs.nlp</groupId>
-            <artifactId>lucene-hanlp</artifactId>
+            <artifactId>lucene-analyzers-hanlp</artifactId>
             <version>1.0</version>
         </dependency>
 
