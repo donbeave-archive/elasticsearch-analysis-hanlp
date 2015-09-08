@@ -28,6 +28,8 @@ import org.elasticsearch.indices.analysis.IndicesAnalysisService;
 
 import java.io.Reader;
 
+import static org.elasticsearch.indices.analysis.hanlp.Settings.*;
+
 /**
  * Registers indices level analysis components so, if not explicitly configured, will be shared
  * among all indices.
@@ -35,49 +37,6 @@ import java.io.Reader;
  * @author <a href='mailto:donbeave@gmail.com'>Alexey Zhokhov</a>
  */
 public class HanLpIndicesAnalysis extends AbstractComponent {
-
-    private static final String CONFIG_PREFIX = "analysis.hanlp.";
-    private static final String ANALYZER_CONFIG_PREFIX = "analysis.hanlp.analyzer.";
-    private static final String TOKENIZER_CONFIG_PREFIX = "analysis.hanlp.tokenizer.";
-
-    private static final String CORE_DICTIONARY_PATH = CONFIG_PREFIX + "CoreDictionaryPath";
-    private static final String CORE_DICTIONARY_TRANSFORM_MATRIX_DICTIONARY_PATH = CONFIG_PREFIX + "CoreDictionaryTransformMatrixDictionaryPath";
-    private static final String BI_GRAM_DICTIONARY_PATH = CONFIG_PREFIX + "BiGramDictionaryPath";
-    private static final String CORE_STOP_WORD_DICTIONARY_PATH = CONFIG_PREFIX + "CoreStopWordDictionaryPath";
-    private static final String CORE_SYNONYM_DICTIONARY_DICTIONARY_PATH = CONFIG_PREFIX + "CoreSynonymDictionaryDictionaryPath";
-    private static final String PERSON_DICTIONARY_PATH = CONFIG_PREFIX + "PersonDictionaryPath";
-    private static final String PERSON_DICTIONARY_TR_PATH = CONFIG_PREFIX + "PersonDictionaryTrPath";
-    private static final String CUSTOM_DICTIONARY_PATH = CONFIG_PREFIX + "CustomDictionaryPath";
-    private static final String TRADITIONAL_CHINESE_DICTIONARY_PATH = CONFIG_PREFIX + "TraditionalChineseDictionaryPath";
-    private static final String SYT_DICTIONARY_PATH = CONFIG_PREFIX + "SYTDictionaryPath";
-    private static final String PINYIN_DICTIONARY_PATH = CONFIG_PREFIX + "PinyinDictionaryPath";
-    private static final String TRANSLATED_PERSON_DICTIONARY_PATH = CONFIG_PREFIX + "TranslatedPersonDictionaryPath";
-    private static final String JAPANESE_PERSON_DICTIONARY_PATH = CONFIG_PREFIX + "JapanesePersonDictionaryPath";
-    private static final String PLACE_DICTIONARY_PATH = CONFIG_PREFIX + "PlaceDictionaryPath";
-    private static final String PLACE_DICTIONARY_TR_PATH = CONFIG_PREFIX + "PlaceDictionaryTrPath";
-    private static final String ORGANIZATION_DICTIONARY_PATH = CONFIG_PREFIX + "OrganizationDictionaryPath";
-    private static final String ORGANIZATION_DICTIONARY_TR_PATH = CONFIG_PREFIX + "OrganizationDictionaryTrPath";
-    private static final String CHAR_TYPE_PATH = CONFIG_PREFIX + "CharTypePath";
-    private static final String CHAR_TABLE_PATH = CONFIG_PREFIX + "CharTablePath";
-    private static final String WORD_NATURE_MODEL_PATH = CONFIG_PREFIX + "WordNatureModelPath";
-    private static final String MAX_ENT_MODEL_PATH = CONFIG_PREFIX + "MaxEntModelPath";
-    private static final String CRF_SEGMENT_MODEL_PATH = CONFIG_PREFIX + "CRFSegmentModelPath";
-    private static final String CRF_DEPENDENCY_MODEL_PATH = CONFIG_PREFIX + "CRFDependencyModelPath";
-    private static final String HMM_SEGMENT_MODEL_PATH = CONFIG_PREFIX + "HMMSegmentModelPath";
-    private static final String SHOW_TERM_NATURE = CONFIG_PREFIX + "ShowTermNature";
-    private static final String NORMALIZATION = CONFIG_PREFIX + "Normalization";
-
-    private static final String INDEX_MODE = "indexMode";
-    private static final String NAME_RECOGNIZE = "nameRecognize";
-    private static final String TRANSLATED_NAME_RECOGNIZE = "translatedNameRecognize";
-    private static final String JAPANESE_NAME_RECOGNIZE = "japaneseNameRecognize";
-    private static final String PLACE_RECOGNIZE = "placeRecognize";
-    private static final String ORGANIZATION_RECOGNIZE = "organizationRecognize";
-    private static final String USE_CUSTOM_DICTIONARY = "useCustomDictionary";
-    private static final String SPEECH_TAGGING = "speechTagging";
-    private static final String OFFSET = "offset";
-    private static final String NUMBER_QUANTIFIER_RECOGNIZE = "numberQuantifierRecognize";
-    private static final String THREADS = "threads";
 
     private boolean analyzerIndexMode = false;
     private boolean analyzerNameRecognize = true;

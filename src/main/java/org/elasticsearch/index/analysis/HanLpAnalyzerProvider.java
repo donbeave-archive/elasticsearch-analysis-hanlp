@@ -23,6 +23,8 @@ import org.elasticsearch.env.Environment;
 import org.elasticsearch.index.Index;
 import org.elasticsearch.index.settings.IndexSettings;
 
+import static org.elasticsearch.indices.analysis.hanlp.Settings.*;
+
 /**
  * @author <a href='mailto:donbeave@gmail.com'>Alexey Zhokhov</a>
  */
@@ -34,8 +36,21 @@ public class HanLpAnalyzerProvider extends AbstractIndexAnalyzerProvider<HanLPAn
     public HanLpAnalyzerProvider(Index index, @IndexSettings Settings indexSettings, Environment env, @Assisted String name, @Assisted Settings settings) {
         super(index, indexSettings, name, settings);
 
-        // TODO
-        analyzer = new HanLPAnalyzer();
+        boolean indexMode = settings.getAsBoolean(INDEX_MODE, false);
+        boolean nameRecognize = settings.getAsBoolean(NAME_RECOGNIZE, true);
+        boolean translatedNameRecognize = settings.getAsBoolean(TRANSLATED_NAME_RECOGNIZE, true);
+        boolean japaneseNameRecognize = settings.getAsBoolean(JAPANESE_NAME_RECOGNIZE, false);
+        boolean placeRecognize = settings.getAsBoolean(PLACE_RECOGNIZE, false);
+        boolean organizationRecognize = settings.getAsBoolean(ORGANIZATION_RECOGNIZE, false);
+        boolean useCustomDictionary = settings.getAsBoolean(USE_CUSTOM_DICTIONARY, true); // enableCustomDictionary
+        boolean speechTagging = settings.getAsBoolean(SPEECH_TAGGING, false); // PorterStemming
+        boolean offset = settings.getAsBoolean(OFFSET, false);
+        boolean numberQuantifierRecognize = settings.getAsBoolean(NUMBER_QUANTIFIER_RECOGNIZE, false);
+        int threads = settings.getAsInt(THREADS, 1); // if more than 1, it means use multi-threading
+
+        analyzer = new HanLPAnalyzer(indexMode, nameRecognize, translatedNameRecognize, japaneseNameRecognize,
+                placeRecognize, organizationRecognize, useCustomDictionary, speechTagging, offset,
+                numberQuantifierRecognize, threads, null);
     }
 
     @Override
