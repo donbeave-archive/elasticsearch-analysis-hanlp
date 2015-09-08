@@ -25,7 +25,7 @@ import org.elasticsearch.plugins.AbstractPlugin;
 import java.util.Collection;
 
 /**
- *
+ * @author <a href='mailto:donbeave@gmail.com'>Alexey Zhokhov</a>
  */
 public class AnalysisHanLpPlugin extends AbstractPlugin {
 
