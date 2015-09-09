@@ -26,24 +26,56 @@ import org.elasticsearch.index.settings.IndexSettings;
 
 import java.io.Reader;
 
+import static org.elasticsearch.indices.analysis.hanlp.Settings.*;
+
 /**
  * @author <a href='mailto:donbeave@gmail.com'>Alexey Zhokhov</a>
  */
 public class HanLpTokenizerTokenizerFactory extends AbstractTokenizerFactory {
 
-    // TODO
-    private boolean enableIndexMode = true;
-    private boolean enablePorterStemming = false;
+    private boolean indexMode = false;
+    private boolean nameRecognize = true;
+    private boolean translatedNameRecognize = true;
+    private boolean japaneseNameRecognize = false;
+    private boolean placeRecognize = false;
+    private boolean organizationRecognize = false;
+    private boolean useCustomDictionary = true;
+    private boolean speechTagging = false;
+    private boolean offset = false;
+    private boolean numberQuantifierRecognize = false;
+    private int threads = 1;
 
     @Inject
     public HanLpTokenizerTokenizerFactory(Index index, @IndexSettings Settings indexSettings, @Assisted String name, @Assisted Settings settings) {
         super(index, indexSettings, name, settings);
+
+        indexMode = settings.getAsBoolean(INDEX_MODE, indexMode);
+        nameRecognize = settings.getAsBoolean(NAME_RECOGNIZE, nameRecognize);
+        translatedNameRecognize = settings.getAsBoolean(TRANSLATED_NAME_RECOGNIZE, translatedNameRecognize);
+        japaneseNameRecognize = settings.getAsBoolean(JAPANESE_NAME_RECOGNIZE, japaneseNameRecognize);
+        placeRecognize = settings.getAsBoolean(PLACE_RECOGNIZE, placeRecognize);
+        organizationRecognize = settings.getAsBoolean(ORGANIZATION_RECOGNIZE, organizationRecognize);
+        useCustomDictionary = settings.getAsBoolean(USE_CUSTOM_DICTIONARY, useCustomDictionary); // enableCustomDictionary
+        speechTagging = settings.getAsBoolean(SPEECH_TAGGING, speechTagging); // PorterStemming
+        offset = settings.getAsBoolean(OFFSET, offset);
+        numberQuantifierRecognize = settings.getAsBoolean(NUMBER_QUANTIFIER_RECOGNIZE, numberQuantifierRecognize);
+        threads = settings.getAsInt(THREADS, threads); // if more than 1, it means use multi-threading
     }
 
     @Override
     public Tokenizer create(Reader reader) {
-        // TODO
-        return new HanLPTokenizer(HanLP.newSegment().enableOffset(true).enableIndexMode(this.enableIndexMode), null, this.enablePorterStemming, reader);
+        return new HanLPTokenizer(HanLP.newSegment()
+                .enableIndexMode(indexMode)
+                .enableNameRecognize(nameRecognize)
+                .enableTranslatedNameRecognize(translatedNameRecognize)
+                .enableJapaneseNameRecognize(japaneseNameRecognize)
+                .enablePlaceRecognize(placeRecognize)
+                .enableOrganizationRecognize(organizationRecognize)
+                .enableCustomDictionary(useCustomDictionary)
+                .enablePartOfSpeechTagging(speechTagging)
+                .enableOffset(offset)
+                .enableNumberQuantifierRecognize(numberQuantifierRecognize)
+                .enableMultithreading(threads), null, speechTagging, reader);
     }
 
 }
