@@ -120,6 +120,11 @@
 
     <repositories>
         <repository>
+            <id>bintray-donbeave</id>
+            <name>Bintray donbeave's repository</name>
+            <url>https://dl.bintray.com/donbeave/maven/</url>
+        </repository>
+        <repository>
             <id>oss-snapshots</id>
             <name>Sonatype OSS Snapshots</name>
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
