@@ -13,7 +13,14 @@
         HanLP Chinese Analysis plugin integrates Lucene HanLP Chinese analysis module into elasticsearch.
     </description>
     <url>https://github.com/donbeave/elasticsearch-analysis-hanlp/</url>
+
     <inceptionYear>2015</inceptionYear>
+
+    <organization>
+        <name>AZ</name>
+        <url>http://www.zhokhov.com</url>
+    </organization>
+
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
@@ -21,10 +28,18 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
+    <developers>
+        <developer>
+            <id>donbeave</id>
+            <name>Alexey Zhokhov</name>
+            <email>alexey@zhokhov.com</email>
+        </developer>
+    </developers>
+
     <scm>
         <connection>scm:git:git@github.com:donbeave/elasticsearch-analysis-hanlp.git</connection>
-        <developerConnection>scm:git:git@github.com:donbeave/elasticsearch-analysis-hanlp.git
-        </developerConnection>
+        <developerConnection>scm:git:git@github.com:donbeave/elasticsearch-analysis-hanlp.git</developerConnection>
         <url>http://github.com/donbeave/elasticsearch-analysis-hanlp</url>
     </scm>
 
@@ -75,6 +90,13 @@
         </dependency>
     </dependencies>
 
+    <distributionManagement>
+        <repository>
+            <id>bintray</id>
+            <url>https://api.bintray.com/maven/donbeave/maven/elasticsearch-analysis-hanlp</url>
+        </repository>
+    </distributionManagement>
+
     <build>
         <resources>
             <resource>
@@ -83,6 +105,15 @@
             </resource>
         </resources>
         <plugins>
+            <plugin>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+                <configuration>
+                    <useReleaseProfile>false</useReleaseProfile>
+                    <releaseProfiles>release</releaseProfiles>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -130,4 +161,37 @@
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
         </repository>
     </repositories>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
 </project>
