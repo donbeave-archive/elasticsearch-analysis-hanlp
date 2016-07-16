@@ -5,6 +5,12 @@
         <format>zip</format>
     </formats>
     <includeBaseDirectory>false</includeBaseDirectory>
+    <fileSets>
+        <fileSet>
+            <directory>${project.basedir}/plugin</directory>
+            <outputDirectory>/</outputDirectory>
+        </fileSet>
+    </fileSets>
     <dependencySets>
         <dependencySet>
             <outputDirectory>/</outputDirectory>
