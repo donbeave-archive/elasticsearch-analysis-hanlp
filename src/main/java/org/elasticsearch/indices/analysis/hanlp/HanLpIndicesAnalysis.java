@@ -18,6 +18,7 @@ package org.elasticsearch.indices.analysis.hanlp;
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.lucene.HanLPAnalyzer;
 import com.hankcs.lucene.HanLPTokenizer;
+
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.Tokenizer;
 import org.elasticsearch.common.component.AbstractComponent;
@@ -70,11 +71,11 @@ public class HanLpIndicesAnalysis extends AbstractComponent {
 
         // Register hanlp analyzer
         indicesAnalysisService.analyzerProviderFactories().put("hanlp",
-                new PreBuiltAnalyzerProviderFactory("hanlp", AnalyzerScope.INDICES,
-                        new HanLPAnalyzer(analyzerIndexMode, analyzerNameRecognize, analyzerTranslatedNameRecognize,
-                                analyzerJapaneseNameRecognize, analyzerPlaceRecognize, analyzerOrganizationRecognize,
-                                analyzerUseCustomDictionary, analyzerSpeechTagging, analyzerOffset,
-                                analyzerNumberQuantifierRecognize, analyzerThreads, null)));
+                                                               new PreBuiltAnalyzerProviderFactory("hanlp", AnalyzerScope.INDICES,
+                                                                                                   new HanLPAnalyzer(analyzerIndexMode, analyzerNameRecognize, analyzerTranslatedNameRecognize,
+                                                                                                                     analyzerJapaneseNameRecognize, analyzerPlaceRecognize, analyzerOrganizationRecognize,
+                                                                                                                     analyzerUseCustomDictionary, analyzerSpeechTagging, analyzerOffset,
+                                                                                                                     analyzerNumberQuantifierRecognize, analyzerThreads, null)));
 
         // Register hanlp_tokenizer tokenizer
         indicesAnalysisService.tokenizerFactories().put("hanlp_tokenizer", new PreBuiltTokenizerFactoryFactory(new TokenizerFactory() {
@@ -84,20 +85,21 @@ public class HanLpIndicesAnalysis extends AbstractComponent {
             }
 
             @Override
-            public Tokenizer create(Reader reader) {
+            public Tokenizer create() {
                 return new HanLPTokenizer(HanLP.newSegment()
-                        .enableIndexMode(tokenizerIndexMode)
-                        .enableNameRecognize(tokenizerNameRecognize)
-                        .enableTranslatedNameRecognize(tokenizerTranslatedNameRecognize)
-                        .enableJapaneseNameRecognize(tokenizerJapaneseNameRecognize)
-                        .enablePlaceRecognize(tokenizerPlaceRecognize)
-                        .enableOrganizationRecognize(tokenizerOrganizationRecognize)
-                        .enableCustomDictionary(tokenizerUseCustomDictionary)
-                        .enablePartOfSpeechTagging(tokenizerSpeechTagging)
-                        .enableOffset(tokenizerOffset)
-                        .enableNumberQuantifierRecognize(tokenizerNumberQuantifierRecognize)
-                        .enableMultithreading(tokenizerThreads), null, tokenizerSpeechTagging, reader);
+                                               .enableIndexMode(tokenizerIndexMode)
+                                               .enableNameRecognize(tokenizerNameRecognize)
+                                               .enableTranslatedNameRecognize(tokenizerTranslatedNameRecognize)
+                                               .enableJapaneseNameRecognize(tokenizerJapaneseNameRecognize)
+                                               .enablePlaceRecognize(tokenizerPlaceRecognize)
+                                               .enableOrganizationRecognize(tokenizerOrganizationRecognize)
+                                               .enableCustomDictionary(tokenizerUseCustomDictionary)
+                                               .enablePartOfSpeechTagging(tokenizerSpeechTagging)
+                                               .enableOffset(tokenizerOffset)
+                                               .enableNumberQuantifierRecognize(tokenizerNumberQuantifierRecognize)
+                                               .enableMultithreading(tokenizerThreads), null, tokenizerSpeechTagging);
             }
+
         }));
 
         // Register hanlp_word token filter -- noop
@@ -142,60 +144,62 @@ public class HanLpIndicesAnalysis extends AbstractComponent {
         tokenizerThreads = settings.getAsInt(TOKENIZER_CONFIG_PREFIX + THREADS, tokenizerThreads);
 
         // fix threads
-        if (analyzerThreads < 1)
+        if (analyzerThreads < 1) {
             analyzerThreads = 1;
-        if (tokenizerThreads < 1)
+        }
+        if (tokenizerThreads < 1) {
             tokenizerThreads = 1;
+        }
 
         // get global HanLP settings
         HanLP.Config.CoreDictionaryPath =
-                settings.get(CORE_DICTIONARY_PATH, HanLP.Config.CoreDictionaryPath);
+            settings.get(CORE_DICTIONARY_PATH, HanLP.Config.CoreDictionaryPath);
         HanLP.Config.CoreDictionaryTransformMatrixDictionaryPath =
-                settings.get(CORE_DICTIONARY_TRANSFORM_MATRIX_DICTIONARY_PATH, HanLP.Config.CoreDictionaryTransformMatrixDictionaryPath);
+            settings.get(CORE_DICTIONARY_TRANSFORM_MATRIX_DICTIONARY_PATH, HanLP.Config.CoreDictionaryTransformMatrixDictionaryPath);
         HanLP.Config.BiGramDictionaryPath =
-                settings.get(BI_GRAM_DICTIONARY_PATH, HanLP.Config.BiGramDictionaryPath);
+            settings.get(BI_GRAM_DICTIONARY_PATH, HanLP.Config.BiGramDictionaryPath);
         HanLP.Config.CoreStopWordDictionaryPath =
-                settings.get(CORE_STOP_WORD_DICTIONARY_PATH, HanLP.Config.CoreStopWordDictionaryPath);
+            settings.get(CORE_STOP_WORD_DICTIONARY_PATH, HanLP.Config.CoreStopWordDictionaryPath);
         HanLP.Config.CoreSynonymDictionaryDictionaryPath =
-                settings.get(CORE_SYNONYM_DICTIONARY_DICTIONARY_PATH, HanLP.Config.CoreSynonymDictionaryDictionaryPath);
+            settings.get(CORE_SYNONYM_DICTIONARY_DICTIONARY_PATH, HanLP.Config.CoreSynonymDictionaryDictionaryPath);
         HanLP.Config.PersonDictionaryPath =
-                settings.get(PERSON_DICTIONARY_PATH, HanLP.Config.PersonDictionaryPath);
+            settings.get(PERSON_DICTIONARY_PATH, HanLP.Config.PersonDictionaryPath);
         HanLP.Config.PersonDictionaryTrPath =
-                settings.get(PERSON_DICTIONARY_TR_PATH, HanLP.Config.PersonDictionaryTrPath);
+            settings.get(PERSON_DICTIONARY_TR_PATH, HanLP.Config.PersonDictionaryTrPath);
         HanLP.Config.CustomDictionaryPath =
-                settings.getAsArray(CUSTOM_DICTIONARY_PATH, HanLP.Config.CustomDictionaryPath);
+            settings.getAsArray(CUSTOM_DICTIONARY_PATH, HanLP.Config.CustomDictionaryPath);
         HanLP.Config.TraditionalChineseDictionaryPath =
-                settings.get(TRADITIONAL_CHINESE_DICTIONARY_PATH, HanLP.Config.TraditionalChineseDictionaryPath);
+            settings.get(TRADITIONAL_CHINESE_DICTIONARY_PATH, HanLP.Config.TraditionalChineseDictionaryPath);
         HanLP.Config.SYTDictionaryPath =
-                settings.get(SYT_DICTIONARY_PATH, HanLP.Config.SYTDictionaryPath);
+            settings.get(SYT_DICTIONARY_PATH, HanLP.Config.SYTDictionaryPath);
         HanLP.Config.PinyinDictionaryPath =
-                settings.get(PINYIN_DICTIONARY_PATH, HanLP.Config.PinyinDictionaryPath);
+            settings.get(PINYIN_DICTIONARY_PATH, HanLP.Config.PinyinDictionaryPath);
         HanLP.Config.TranslatedPersonDictionaryPath =
-                settings.get(TRANSLATED_PERSON_DICTIONARY_PATH, HanLP.Config.TranslatedPersonDictionaryPath);
+            settings.get(TRANSLATED_PERSON_DICTIONARY_PATH, HanLP.Config.TranslatedPersonDictionaryPath);
         HanLP.Config.JapanesePersonDictionaryPath =
-                settings.get(JAPANESE_PERSON_DICTIONARY_PATH, HanLP.Config.JapanesePersonDictionaryPath);
+            settings.get(JAPANESE_PERSON_DICTIONARY_PATH, HanLP.Config.JapanesePersonDictionaryPath);
         HanLP.Config.PlaceDictionaryPath =
-                settings.get(PLACE_DICTIONARY_PATH, HanLP.Config.PlaceDictionaryPath);
+            settings.get(PLACE_DICTIONARY_PATH, HanLP.Config.PlaceDictionaryPath);
         HanLP.Config.PlaceDictionaryTrPath =
-                settings.get(PLACE_DICTIONARY_TR_PATH, HanLP.Config.PlaceDictionaryTrPath);
+            settings.get(PLACE_DICTIONARY_TR_PATH, HanLP.Config.PlaceDictionaryTrPath);
         HanLP.Config.OrganizationDictionaryPath =
-                settings.get(ORGANIZATION_DICTIONARY_PATH, HanLP.Config.OrganizationDictionaryPath);
+            settings.get(ORGANIZATION_DICTIONARY_PATH, HanLP.Config.OrganizationDictionaryPath);
         HanLP.Config.OrganizationDictionaryTrPath =
-                settings.get(ORGANIZATION_DICTIONARY_TR_PATH, HanLP.Config.OrganizationDictionaryTrPath);
+            settings.get(ORGANIZATION_DICTIONARY_TR_PATH, HanLP.Config.OrganizationDictionaryTrPath);
         HanLP.Config.CharTypePath =
-                settings.get(CHAR_TYPE_PATH, HanLP.Config.CharTypePath);
+            settings.get(CHAR_TYPE_PATH, HanLP.Config.CharTypePath);
         HanLP.Config.CharTablePath =
-                settings.get(CHAR_TABLE_PATH, HanLP.Config.CharTablePath);
+            settings.get(CHAR_TABLE_PATH, HanLP.Config.CharTablePath);
         HanLP.Config.WordNatureModelPath =
-                settings.get(WORD_NATURE_MODEL_PATH, HanLP.Config.WordNatureModelPath);
+            settings.get(WORD_NATURE_MODEL_PATH, HanLP.Config.WordNatureModelPath);
         HanLP.Config.MaxEntModelPath =
-                settings.get(MAX_ENT_MODEL_PATH, HanLP.Config.MaxEntModelPath);
+            settings.get(MAX_ENT_MODEL_PATH, HanLP.Config.MaxEntModelPath);
         HanLP.Config.CRFSegmentModelPath =
-                settings.get(CRF_SEGMENT_MODEL_PATH, HanLP.Config.CRFSegmentModelPath);
+            settings.get(CRF_SEGMENT_MODEL_PATH, HanLP.Config.CRFSegmentModelPath);
         HanLP.Config.CRFDependencyModelPath =
-                settings.get(CRF_DEPENDENCY_MODEL_PATH, HanLP.Config.CRFDependencyModelPath);
+            settings.get(CRF_DEPENDENCY_MODEL_PATH, HanLP.Config.CRFDependencyModelPath);
         HanLP.Config.HMMSegmentModelPath =
-                settings.get(HMM_SEGMENT_MODEL_PATH, HanLP.Config.HMMSegmentModelPath);
+            settings.get(HMM_SEGMENT_MODEL_PATH, HanLP.Config.HMMSegmentModelPath);
         HanLP.Config.ShowTermNature = settings.getAsBoolean(SHOW_TERM_NATURE, true);
         HanLP.Config.Normalization = settings.getAsBoolean(NORMALIZATION, false);
     }

@@ -15,19 +15,19 @@
  */
 package org.elasticsearch.plugin.analysis.hanlp;
 
-import org.elasticsearch.common.collect.ImmutableList;
 import org.elasticsearch.common.inject.Module;
 import org.elasticsearch.index.analysis.AnalysisModule;
 import org.elasticsearch.index.analysis.HanLpAnalysisBinderProcessor;
 import org.elasticsearch.indices.analysis.hanlp.HanLpIndicesAnalysisModule;
-import org.elasticsearch.plugins.AbstractPlugin;
+import org.elasticsearch.plugins.Plugin;
 
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * @author <a href='mailto:donbeave@gmail.com'>Alexey Zhokhov</a>
  */
-public class AnalysisHanLpPlugin extends AbstractPlugin {
+public class AnalysisHanLpPlugin extends Plugin {
 
     @Override
     public String name() {
@@ -40,10 +40,13 @@ public class AnalysisHanLpPlugin extends AbstractPlugin {
     }
 
     @Override
-    public Collection<Class<? extends Module>> modules() {
-        return ImmutableList.<Class<? extends Module>>of(HanLpIndicesAnalysisModule.class);
+    public Collection<Module> nodeModules() {
+        return Collections.<Module>singletonList(new HanLpIndicesAnalysisModule());
     }
 
+    /**
+     * Automatically called with the analysis module.
+     */
     public void onModule(AnalysisModule module) {
         module.addProcessor(new HanLpAnalysisBinderProcessor());
     }
