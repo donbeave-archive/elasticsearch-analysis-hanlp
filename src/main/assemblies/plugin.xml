@@ -19,7 +19,7 @@
             <useProjectArtifact>true</useProjectArtifact>
             <useTransitiveFiltering>true</useTransitiveFiltering>
             <includes>
-                <include>com.hankcs.nlp:hanlp-portable</include>
+                <include>com.hankcs:hanlp</include>
                 <include>com.hankcs.nlp:lucene-analyzers-hanlp</include>
             </includes>
         </dependencySet>
