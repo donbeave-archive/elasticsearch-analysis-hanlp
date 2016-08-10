@@ -5,6 +5,12 @@
         <format>zip</format>
     </formats>
     <includeBaseDirectory>false</includeBaseDirectory>
+    <fileSets>
+        <fileSet>
+            <directory>${project.basedir}/plugin</directory>
+            <outputDirectory>/</outputDirectory>
+        </fileSet>
+    </fileSets>
     <dependencySets>
         <dependencySet>
             <outputDirectory>/</outputDirectory>
@@ -19,7 +25,7 @@
             <useProjectArtifact>true</useProjectArtifact>
             <useTransitiveFiltering>true</useTransitiveFiltering>
             <includes>
-                <include>com.hankcs.nlp:hanlp-portable</include>
+                <include>com.hankcs:hanlp</include>
                 <include>com.hankcs.nlp:lucene-analyzers-hanlp</include>
             </includes>
         </dependencySet>

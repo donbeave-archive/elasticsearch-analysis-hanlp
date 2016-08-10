@@ -15,18 +15,17 @@
  */
 package org.elasticsearch.index.analysis;
 
+import static org.elasticsearch.indices.analysis.hanlp.Settings.*;
+
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.lucene.HanLPTokenizer;
+
 import org.apache.lucene.analysis.Tokenizer;
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.common.inject.assistedinject.Assisted;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.index.Index;
-import org.elasticsearch.index.settings.IndexSettings;
-
-import java.io.Reader;
-
-import static org.elasticsearch.indices.analysis.hanlp.Settings.*;
+import org.elasticsearch.index.settings.IndexSettingsService;
 
 /**
  * @author <a href='mailto:donbeave@gmail.com'>Alexey Zhokhov</a>
@@ -46,8 +45,8 @@ public class HanLpTokenizerTokenizerFactory extends AbstractTokenizerFactory {
     private int threads = 1;
 
     @Inject
-    public HanLpTokenizerTokenizerFactory(Index index, @IndexSettings Settings indexSettings, @Assisted String name, @Assisted Settings settings) {
-        super(index, indexSettings, name, settings);
+    public HanLpTokenizerTokenizerFactory(Index index, IndexSettingsService indexSettingsService, @Assisted String name, @Assisted Settings settings) {
+        super(index, indexSettingsService.getSettings(), name, settings);
 
         indexMode = settings.getAsBoolean(INDEX_MODE, indexMode);
         nameRecognize = settings.getAsBoolean(NAME_RECOGNIZE, nameRecognize);
@@ -63,19 +62,18 @@ public class HanLpTokenizerTokenizerFactory extends AbstractTokenizerFactory {
     }
 
     @Override
-    public Tokenizer create(Reader reader) {
+    public Tokenizer create() {
         return new HanLPTokenizer(HanLP.newSegment()
-                .enableIndexMode(indexMode)
-                .enableNameRecognize(nameRecognize)
-                .enableTranslatedNameRecognize(translatedNameRecognize)
-                .enableJapaneseNameRecognize(japaneseNameRecognize)
-                .enablePlaceRecognize(placeRecognize)
-                .enableOrganizationRecognize(organizationRecognize)
-                .enableCustomDictionary(useCustomDictionary)
-                .enablePartOfSpeechTagging(speechTagging)
-                .enableOffset(offset)
-                .enableNumberQuantifierRecognize(numberQuantifierRecognize)
-                .enableMultithreading(threads), null, speechTagging, reader);
+                                       .enableIndexMode(indexMode)
+                                       .enableNameRecognize(nameRecognize)
+                                       .enableTranslatedNameRecognize(translatedNameRecognize)
+                                       .enableJapaneseNameRecognize(japaneseNameRecognize)
+                                       .enablePlaceRecognize(placeRecognize)
+                                       .enableOrganizationRecognize(organizationRecognize)
+                                       .enableCustomDictionary(useCustomDictionary)
+                                       .enablePartOfSpeechTagging(speechTagging)
+                                       .enableOffset(offset)
+                                       .enableNumberQuantifierRecognize(numberQuantifierRecognize)
+                                       .enableMultithreading(threads), null, speechTagging);
     }
-
 }
